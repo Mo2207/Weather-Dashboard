@@ -32,7 +32,7 @@
     </div>
 
     <div id="displayWeather" class="col-8 border rounded-1" style="height: 25vh; background-color: rgba(210, 210, 210, 0.649)">
-      <h2 id="locationWeather"></h2>
+      <h2 id="locationWeather">Finding your current location...</h2>
       <p id="displayTemp"></p>
       <p id="displayWind"></p>
       <p id="displayHumidity"></p>
@@ -42,7 +42,7 @@
 
   <div id="row2" class="justify-content-start row m-4">
 
-    <ul class="col-4">
+    <ul id="history" class="col-4">
       <li class="badge text-bg-secondary w-100" style="height: 4vh;">Secondary</li>
       <li class="badge text-bg-secondary w-100" style="height: 4vh;">Secondary</li>
       <li class="badge text-bg-secondary w-100" style="height: 4vh;">Secondary</li>
@@ -54,15 +54,6 @@
     <div class="col-8 row p-0">
 
       <h2>5 Day Forecast:</h2>
-
-      <div class="card col m-1">
-        <div class="card-body p-0" style="font-size: 0.8em;">
-          <h5 id="cardDate0" class="card-title"></h5>
-          <p id="cardTemp0" class="card-text"></p>
-          <p id="cardWind0" class="card-text"></p>
-          <p id="cardHumid0" class="card-text"></p>
-        </div>
-      </div>
 
       <div class="card col m-1">
         <div class="card-body p-0" style="font-size: 0.8em;">
@@ -100,6 +91,15 @@
         </div>
       </div>
 
+      <div class="card col m-1">
+        <div class="card-body p-0" style="font-size: 0.8em;">
+          <h5 id="cardDate5" class="card-title"></h5>
+          <p id="cardTemp5" class="card-text"></p>
+          <p id="cardWind5" class="card-text"></p>
+          <p id="cardHumid5" class="card-text"></p>
+        </div>
+      </div>
+
 
     </div>
 
@@ -125,6 +125,6 @@
 
   <!-- My code -->
   <script src="scripts/script.js"></script>
-  
+
 </body>
 </html>
