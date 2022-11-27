@@ -1,10 +1,11 @@
 
+// Todays date
 let currentDate = dayjs().format("D/MM/YYYY");
 
-// checks users current location
+// Checks users current location
 let getLocation = () => {
   if (navigator.geolocation) {
-    // if users location is enabled, run currentLocationWeather
+    // if users location is enabled, call currentLocationWeather
     navigator.geolocation.getCurrentPosition(currentLocationWeather);
   } else {
     // if location can't be found
@@ -12,7 +13,7 @@ let getLocation = () => {
   }
 }
 
-// displays current weather for current location and the 5 day forecast as soon as page is loaded
+// Displays current weather for current location and the 5 day forecast as soon as page is loaded
 let currentLocationWeather = (position) => {
   fetchCurrentWeather(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
 
@@ -31,17 +32,27 @@ let searchCity = () => {
   fetch(`https://api.openweathermap.org/data/2.5/forecast?cnt=5&q=${cityName}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`)
   .then(function(response) {
     if (response.ok) {
-      return response.json();
-    } else {
-    alert("That city doesn't exist. Please try again")
-    }
-  })
-  .then(function(data) {
 
-    // Once validated, fetch the current and the 5 day forecast
-    fetchCurrentWeather(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
+      // If cityName is accepted, fetch again
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?cnt=5&q=${cityName}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`)
+      .then(function(reponse) {
+        
+        // Call searchHistory with the cityName to add it to recently searched list
+        searchHistory(cityName);
+
+        return response.json();
+      })
+      .then(function(data) {
+        // Fetch weather for searched city
+        fetchCurrentWeather(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
     
-    fetchFutureForecast(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt=45&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
+        fetchFutureForecast(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt=45&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
+      })
+    } 
+    else {
+      // Alert error to the user if their searched city wasn't accepted by api
+      alert("That city doesn't exist. Please try again");
+    }
   })
 }
 
@@ -77,16 +88,18 @@ let fetchFutureForecast = (url) => {
   })
 }
 
-let searchHistory = () => {
+// Validates searched city first, then displays the current and 5 day forecast for the searched city
+let searchHistory = (cityName) => {
+  cityName = cityName.toUpperCase();
 
-  // set cityName to what the user submitted
-  let cityName = ($("#search").val()).toString();
-
-  let history = $("#history").addClass("badge text-bg-secondary w-100").css("height: 4vh;");
+  let history = $("#history").append($(`<button>${cityName}</button`).addClass("historyBtn btn btn-outline-secondary mt-2 w-100"));
   
 }
 
 $("#searchCity").on("click", searchCity);
+$(".historyBtn").on("click", function() {
+  console.log("Hello")
+})
 
 // call function right away to find users location
 getLocation()
