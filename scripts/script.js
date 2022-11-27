@@ -89,16 +89,21 @@ let fetchFutureForecast = (url) => {
 }
 
 // Validates searched city first, then displays the current and 5 day forecast for the searched city
-let searchHistory = (cityName) => {
-  cityName = cityName.toUpperCase();
+var cityHistory;
+let searchHistory = (cityHistory) => {
+  cityHistory = cityHistory.toUpperCase();
 
-  let history = $("#history").append($(`<button>${cityName}</button`).addClass("historyBtn btn btn-outline-secondary mt-2 w-100"));
-  
+  let history = $("#history").append($(`<button type="button" class="btn btn-outline-secondary mt-1 w-100">${cityHistory}</button>`));
 }
 
 $("#searchCity").on("click", searchCity);
-$(".historyBtn").on("click", function() {
-  console.log("Hello")
+
+$("#history").on("click", function(event) {
+  let current = event.target.textContent;
+  
+  // Recall the current/future forecast using the textContent as the value in the button pressed
+  fetchCurrentWeather(`https://api.openweathermap.org/data/2.5/weather?q=${current}&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`);
+  fetchFutureForecast(`https://api.openweathermap.org/data/2.5/forecast?q=${current}&cnt=45&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`)
 })
 
 // call function right away to find users location
