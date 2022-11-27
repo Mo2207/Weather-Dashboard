@@ -89,15 +89,32 @@ let fetchFutureForecast = (url) => {
 }
 
 // Validates searched city first, then displays the current and 5 day forecast for the searched city
-var cityHistory;
 let searchHistory = (cityHistory) => {
   cityHistory = cityHistory.toUpperCase();
+
+  // Get cities stores in localStorage, if it doesn't exist yet set it to empty array
+  let searchedCities = JSON.parse(localStorage.getItem("searchedCities")||"[]");
+  searchedCities.push(cityHistory); 
+  // Add the searchedCity to the array in localStorage
+  localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 
   let history = $("#history").append($(`<button type="button" class="btn btn-outline-secondary mt-1 w-100">${cityHistory}</button>`));
 }
 
+// If searchedCities is empty in localStorage, wait for it to have a value first
+if (JSON.parse(localStorage.getItem("searchedCities"))) {
+
+  // When the page is refreshed, and if searchedCities has a value saved to localStorage, loop through the array and update the html to display the search history buttons
+  for (let i=0; i < (JSON.parse(localStorage.getItem("searchedCities"))).length; i++) {
+
+    let history = $("#history").append($(`<button type="button" class="btn btn-outline-secondary mt-1 w-100">${(JSON.parse(localStorage.getItem("searchedCities")))[i]}</button>`));
+  }
+}
+
+// Event listener for submitted searches 
 $("#searchCity").on("click", searchCity);
 
+// Event listener for search history buttons
 $("#history").on("click", function(event) {
   let current = event.target.textContent;
   
@@ -106,7 +123,7 @@ $("#history").on("click", function(event) {
   fetchFutureForecast(`https://api.openweathermap.org/data/2.5/forecast?q=${current}&cnt=45&units=metric&appid=3a3724d04775e368285b5dbd5c300e67`)
 })
 
-// call function right away to find users location
+// Call getLocation right away to find users location
 getLocation()
 
 
