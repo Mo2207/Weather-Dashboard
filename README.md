@@ -13,8 +13,8 @@ This project can be viewed using the live server or view in default browser exte
 Or it can be viewed on github pages here: https://mo2207.github.io/Weather-Dashboard/
 
 ## Usage:
-!["picture of weather-dashboard code"]("./assets/images/weather-dashboard-code.png")
-!["picture of weather-dashboard page"]("./assets/images/weather-dashboard-page.png")
+!["picture of weather-dashboard code"](/assets/images/weather-dashboard-code.png)
+!["picture of weather-dashboard page"](/assets/images/weather-dashboard-page.png)
 
 ## Credits:
 I built this myself.
