@@ -63,8 +63,11 @@ let fetchCurrentWeather = (url) => {
     return response.json();
   })
   .then(function(data) {
+    let iconCode = data.weather[0].icon;
+    let iconUrl = `http://openweathermap.org/img/wn/${iconCode}.png`;
+
     $("#locationWeather").text(`Current weather for ${data.name} (${currentDate})`);
-    $("#displayTemp").text(`Temperature: ${data.main.temp} °C`);
+    $("#displayTemp").text(`Temperature: ${data.main.temp} °C`).append(`<img src= ${iconUrl} />`);
     $("#displayWind").text(`Wind: ${data.wind.speed} km/h`);
     $("#displayHumidity").text(`Humidity: ${data.main.humidity} %`);
   })
@@ -78,9 +81,13 @@ let fetchFutureForecast = (url) => {
   })
   .then(function(data) {
     let cardCount = 1;
+
     for (let i=5; i < data.list.length; i+=8) {
+      let iconCode = data.list[i].weather[0].icon;
+      let iconUrl = `http://openweathermap.org/img/wn/${iconCode}.png`;
+      
       $(`#cardDate${cardCount.toString()}`).text(`${data.list[i].dt_txt.slice(0,-9)}`);
-      $(`#cardTemp${cardCount.toString()}`).text(`Temperature: ${data.list[i].main.temp} °C`);
+      $(`#cardTemp${cardCount.toString()}`).text(`Temperature: ${data.list[i].main.temp} °C`).append(`<img src= ${iconUrl} />`);
       $(`#cardWind${cardCount.toString()}`).text(`Wind: ${data.list[i].wind.speed} km/h`);
       $(`#cardHumid${cardCount.toString()}`).text(`Humidity: ${data.list[i].main.humidity} %`);
       cardCount++;
